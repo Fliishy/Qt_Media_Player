@@ -14,7 +14,12 @@ class MediaPlayer (QWidget, Ui_Media_Player):
         self.player = QMediaPlayer()
         
         self.select_file()
-        self.play_audio()
+        self.set_audio()
+
+        self.pb_play_pause.clicked.connect(self.play_pause_button)
+        self.pb_stop.clicked.connect(self.stop_button)
+        # self.pb_back.clicked.connect(self.back_button)
+        # self.pb_forward.clicked.connect(self.forward_button)
 
     # method that runs on startup and allows the user to choose an audio file
     def select_file(self):
@@ -38,8 +43,8 @@ class MediaPlayer (QWidget, Ui_Media_Player):
         # sets the song title label to be the file name we just extracted
         self.lb_song_title.setText(file_name)
 
-    # method that controls the audio playback
-    def play_audio(self):
+    # method that initialises audio
+    def set_audio(self):
         
         # sets the url to be the selected file path
         file_url = QUrl.fromLocalFile(self.file_path[0])
@@ -53,6 +58,22 @@ class MediaPlayer (QWidget, Ui_Media_Player):
         self.audio_output.setVolume(.2)
         self.player.play()
 
+    # when the play/pause button is pressed
+    def play_pause_button(self):
+        # if the player is playing audio it will pause the player
+        if self.player.isPlaying() == True:
+            self.player.pause()
+        # if the player is not playing audio it will play the currently active sound file
+        else:
+            self.player.play()
+
+    def stop_button(self):
+        # stops playing and resets the play position to the beginning
+        self.player.stop()
+        # sets the active track to an index that doesn't exist so it doesn't play anything
+        self.player.setActiveAudioTrack(-1)
+        # sets the song title text to be a dash
+        self.lb_song_title.setText('-')
 
 #creates an instance of QApplication and executes the program
 if __name__ == '__main__':
