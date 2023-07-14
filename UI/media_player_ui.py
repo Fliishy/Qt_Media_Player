@@ -26,7 +26,7 @@ class Ui_media_player(object):
     def setupUi(self, media_player):
         if not media_player.objectName():
             media_player.setObjectName(u"media_player")
-        media_player.resize(594, 537)
+        media_player.resize(713, 598)
         self.actionBrowse = QAction(media_player)
         self.actionBrowse.setObjectName(u"actionBrowse")
         font = QFont()
@@ -51,18 +51,47 @@ class Ui_media_player(object):
 
         self.gridLayout.addWidget(self.lb_song_time, 3, 0, 1, 1)
 
-        self.volume_slider = QSlider(self.centralwidget)
+        self.frame = QFrame(self.centralwidget)
+        self.frame.setObjectName(u"frame")
+        sizePolicy.setHeightForWidth(self.frame.sizePolicy().hasHeightForWidth())
+        self.frame.setSizePolicy(sizePolicy)
+        self.frame.setFrameShape(QFrame.NoFrame)
+        self.frame.setFrameShadow(QFrame.Plain)
+        self.gridLayout_3 = QGridLayout(self.frame)
+        self.gridLayout_3.setObjectName(u"gridLayout_3")
+        self.volume_slider = QSlider(self.frame)
         self.volume_slider.setObjectName(u"volume_slider")
+        sizePolicy.setHeightForWidth(self.volume_slider.sizePolicy().hasHeightForWidth())
+        self.volume_slider.setSizePolicy(sizePolicy)
         self.volume_slider.setMaximum(100)
-        self.volume_slider.setPageStep(20)
+        self.volume_slider.setPageStep(10)
         self.volume_slider.setValue(0)
+        self.volume_slider.setTracking(True)
         self.volume_slider.setOrientation(Qt.Horizontal)
         self.volume_slider.setInvertedAppearance(False)
         self.volume_slider.setInvertedControls(False)
         self.volume_slider.setTickPosition(QSlider.NoTicks)
         self.volume_slider.setTickInterval(0)
 
-        self.gridLayout.addWidget(self.volume_slider, 5, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.volume_slider, 0, 0, 1, 1)
+
+        self.volume_percent = QLabel(self.frame)
+        self.volume_percent.setObjectName(u"volume_percent")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.volume_percent.sizePolicy().hasHeightForWidth())
+        self.volume_percent.setSizePolicy(sizePolicy1)
+        self.volume_percent.setMinimumSize(QSize(34, 0))
+        self.volume_percent.setMaximumSize(QSize(34, 16777215))
+        self.volume_percent.setStyleSheet(u"QLabel {\n"
+"	color:black;\n"
+"}")
+
+        self.gridLayout_3.addWidget(self.volume_percent, 0, 1, 1, 1)
+
+
+        self.gridLayout.addWidget(self.frame, 5, 0, 1, 1)
 
         self.button_frame = QFrame(self.centralwidget)
         self.button_frame.setObjectName(u"button_frame")
@@ -131,6 +160,7 @@ class Ui_media_player(object):
         self.folder_view.setObjectName(u"folder_view")
         self.folder_view.setFrameShape(QFrame.NoFrame)
         self.folder_view.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.folder_view.setViewMode(QListView.ListMode)
 
         self.gridLayout_2.addWidget(self.folder_view, 0, 0, 1, 1)
 
@@ -140,7 +170,7 @@ class Ui_media_player(object):
         media_player.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(media_player)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 594, 20))
+        self.menubar.setGeometry(QRect(0, 0, 713, 20))
         font3 = QFont()
         font3.setPointSize(10)
         self.menubar.setFont(font3)
@@ -165,6 +195,7 @@ class Ui_media_player(object):
         self.actionBrowse.setText(QCoreApplication.translate("media_player", u"Browse", None))
         self.actionQuit.setText(QCoreApplication.translate("media_player", u"Quit", None))
         self.lb_song_time.setText(QCoreApplication.translate("media_player", u"-", None))
+        self.volume_percent.setText(QCoreApplication.translate("media_player", u"0%", None))
         self.pb_back.setText("")
         self.pb_stop.setText("")
         self.pb_play_pause.setText("")

@@ -44,7 +44,6 @@ class MediaPlayer (QMainWindow, Ui_media_player):
         # Controls the volume by signaling when the volume bar value is changed
         self.volume_slider.valueChanged.connect(self.volume_control)
 
-    
     '''
         Method that runs on startup and allows the user to choose an audio file
         file_filter lists the file types we want to show to the user
@@ -99,6 +98,7 @@ class MediaPlayer (QMainWindow, Ui_media_player):
         self.player.setAudioOutput(self.audio_output)
         self.player.setSource(self.file_url)
         self.volume_slider.setSliderPosition(50)
+        self.volume_percent.setText(f'{self.volume_slider.value} + %')
         self.volume_control()
         self.player.play()
 
@@ -153,12 +153,18 @@ class MediaPlayer (QMainWindow, Ui_media_player):
     '''
         Sets a variable volume to be the volume slider position / 100
         / 100 because the volume output is working on a 0 - 1 scale where 1 is 100%
+        Sets the volume percentage text to equal the value of the slider
         Set the audio output to be equal to the volume variable
+
+        Try/except block here to bypass the attribute error for changing the volume controls when no audio file has been setup
     '''
     def volume_control(self):
-        self.volume = self.volume_slider.value() / 100
-        self.audio_output.setVolume(self.volume)
-
+        try:
+            self.volume = self.volume_slider.value() / 100
+            self.volume_percent.setText(f'{self.volume_slider.value()}%')
+            self.audio_output.setVolume(self.volume)
+        except AttributeError:
+            pass
 
 # creates an instance of QApplication and executes the program
 if __name__ == '__main__':
