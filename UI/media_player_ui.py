@@ -18,6 +18,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QHBoxLayout,
     QLabel, QPushButton, QSizePolicy, QSlider,
     QWidget)
+import icons_rc
 
 class Ui_Media_Player(object):
     def setupUi(self, Media_Player):
@@ -47,21 +48,33 @@ class Ui_Media_Player(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.pb_back = QPushButton(self.button_frame)
         self.pb_back.setObjectName(u"pb_back")
+        icon = QIcon()
+        icon.addFile(u":/buttons/previous-track.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pb_back.setIcon(icon)
 
         self.horizontalLayout.addWidget(self.pb_back)
 
         self.pb_stop = QPushButton(self.button_frame)
         self.pb_stop.setObjectName(u"pb_stop")
+        icon1 = QIcon()
+        icon1.addFile(u":/buttons/stop.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pb_stop.setIcon(icon1)
 
         self.horizontalLayout.addWidget(self.pb_stop)
 
         self.pb_play_pause = QPushButton(self.button_frame)
         self.pb_play_pause.setObjectName(u"pb_play_pause")
+        icon2 = QIcon()
+        icon2.addFile(u":/buttons/pause-play.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pb_play_pause.setIcon(icon2)
 
         self.horizontalLayout.addWidget(self.pb_play_pause)
 
         self.pb_forward = QPushButton(self.button_frame)
         self.pb_forward.setObjectName(u"pb_forward")
+        icon3 = QIcon()
+        icon3.addFile(u":/buttons/next-track.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pb_forward.setIcon(icon3)
 
         self.horizontalLayout.addWidget(self.pb_forward)
 
@@ -118,10 +131,10 @@ class Ui_Media_Player(object):
 
     def retranslateUi(self, Media_Player):
         Media_Player.setWindowTitle(QCoreApplication.translate("Media_Player", u"Media Player", None))
-        self.pb_back.setText(QCoreApplication.translate("Media_Player", u"Back", None))
-        self.pb_stop.setText(QCoreApplication.translate("Media_Player", u"Stop", None))
-        self.pb_play_pause.setText(QCoreApplication.translate("Media_Player", u"Play/Pause", None))
-        self.pb_forward.setText(QCoreApplication.translate("Media_Player", u"Forward", None))
+        self.pb_back.setText("")
+        self.pb_stop.setText("")
+        self.pb_play_pause.setText("")
+        self.pb_forward.setText("")
         self.lb_song_time.setText(QCoreApplication.translate("Media_Player", u"-", None))
         self.lb_song_title.setText(QCoreApplication.translate("Media_Player", u"-", None))
     # retranslateUi

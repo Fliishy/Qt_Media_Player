@@ -1,0 +1,13 @@
+<RCC>
+  <qresource prefix="buttons">
+    <file>next-track.png</file>
+    <file>pause-play.png</file>
+    <file>previous-track.png</file>
+    <file>settings.png</file>
+    <file>sound-on.png</file>
+    <file>stop.png</file>
+    <file>volume-disabled.png</file>
+    <file>volume-down.png</file>
+    <file>volume-up.png</file>
+  </qresource>
+</RCC>

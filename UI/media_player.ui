@@ -50,28 +50,44 @@
       <item>
        <widget class="QPushButton" name="pb_back">
         <property name="text">
-         <string>Back</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="Icons/icons.qrc">
+          <normaloff>:/buttons/previous-track.png</normaloff>:/buttons/previous-track.png</iconset>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="pb_stop">
         <property name="text">
-         <string>Stop</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="Icons/icons.qrc">
+          <normaloff>:/buttons/stop.png</normaloff>:/buttons/stop.png</iconset>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="pb_play_pause">
         <property name="text">
-         <string>Play/Pause</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="Icons/icons.qrc">
+          <normaloff>:/buttons/pause-play.png</normaloff>:/buttons/pause-play.png</iconset>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="pb_forward">
         <property name="text">
-         <string>Forward</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="Icons/icons.qrc">
+          <normaloff>:/buttons/next-track.png</normaloff>:/buttons/next-track.png</iconset>
         </property>
        </widget>
       </item>
@@ -151,6 +167,8 @@
   <tabstop>pb_play_pause</tabstop>
   <tabstop>pb_forward</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="Icons/icons.qrc"/>
+ </resources>
  <connections/>
 </ui>
