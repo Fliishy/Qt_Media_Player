@@ -1,29 +1,44 @@
-import sys
-from PySide6.QtWidgets import QMainWindow, QApplication, QFileDialog
+import sys, pathlib
+from PySide6.QtWidgets import QMainWindow, QApplication, QFileDialog, QFileSystemModel
 from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
 from PySide6.QtCore import QUrl, QFileInfo
 
 from UI.media_player_ui import Ui_media_player
 
+
 class MediaPlayer (QMainWindow, Ui_media_player):
+
+    current_directory = 'Qt/Media_Player/Audio_Files'
+
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-
+        
         # initialises a media player
         self.player = QMediaPlayer()
-        
-        self.select_file()
-        self.set_audio()
-        self.song_name()
+
+        '''
+            initialses a file system in a list view(init_folder)
+            applies filters so only the listed formats are shown
+            nameFilterDisables(False) sets the items without the listed formats are hidden
+        '''
+        self.model = QFileSystemModel()
+        self.model.setNameFilters(['*.mp3', '*.wav', '*.aac', '*.flac'])
+        self.model.setNameFilterDisables(False)
+        self.init_folder()
 
         # runs the player_timer when the track is playing
         self.player.positionChanged.connect(self.player_timer)
 
+        # when the play/pause or stop buttons are pressed it runs the corresponding methods
         self.pb_play_pause.clicked.connect(self.play_pause_button)
         self.pb_stop.clicked.connect(self.stop_button)
+
+        # allows the user to browse their files when file > browse is clicked
+        self.actionBrowse.triggered.connect(self.select_file)
         
         # self.pb_back.clicked.connect(self.back_button)
+
         # self.pb_forward.clicked.connect(self.forward_button)
 
         # Controls the volume by signaling when the volume bar value is changed
@@ -37,29 +52,53 @@ class MediaPlayer (QMainWindow, Ui_media_player):
         file_path returns a tuple with the file path and data types
     '''
     def select_file(self):
-        file_filter = 'Data file (*.mp3 *.wav *.aac *.flac)'
+        file_filter = '*.mp3 *.wav *.aac *.flac'
         self.file_path = QFileDialog.getOpenFileName(
             caption='Select a file', # shows what text appears at the top of the windw
             dir='Qt/Media_Player/Audio_Files', # initialises the directory we display
             filter=file_filter # uses the filter list from earlier to only show files of a certain type
             )
+        self.set_audio()
+        self.song_name()
+        self.update_folder()
+
+    '''
+        sets the initial display folder as the current_directory path
+        sets the treeView up to follow the model of the directory
+    '''
+    def init_folder(self):
+        self.model.setRootPath(MediaPlayer.current_directory)
+        self.folder_view.setModel(self.model)
+        self.folder_view.setRootIndex(self.model.index(MediaPlayer.current_directory))
+        
+    '''
+        when you switch to a different directory than the default it will update the display
+        this will show the new directory you selected by overridding the current_directory path
+    '''
+    def update_folder(self):
+        file_info = QFileInfo(self.file_url.toLocalFile())
+        MediaPlayer.current_directory = file_info.absolutePath()
+        self.model.setRootPath(MediaPlayer.current_directory)
+        self.folder_view.setModel(self.model)
+        self.folder_view.setRootIndex(self.model.index(MediaPlayer.current_directory))
         
     '''
         Method that initialises audio
+        If a file is loaded it will remove it with stop so other files can be played
         Sets the url to be the selected file path
         QAudioOutput represents an output channel for audio
         Sets the QMediaPlayer audio output to be the defined audio output
         Tells the player the source of the file is the file we selected in the select_file method
-        Sets the initial volume slider to be 20%
+        Sets the initial volume slider to be 50%
         Calls the volume control method to run which sets the output value
     '''
     def set_audio(self):
-        
-        file_url = QUrl.fromLocalFile(self.file_path[0])
+        self.player.stop()
+        self.file_url = QUrl.fromLocalFile(self.file_path[0])
         self.audio_output = QAudioOutput()
         self.player.setAudioOutput(self.audio_output)
-        self.player.setSource(file_url)
-        self.volume_slider.setSliderPosition(20)
+        self.player.setSource(self.file_url)
+        self.volume_slider.setSliderPosition(50)
         self.volume_control()
         self.player.play()
 
@@ -107,8 +146,9 @@ class MediaPlayer (QMainWindow, Ui_media_player):
         self.player.stop()
         self.lb_song_title.setText('')
         self.lb_song_time.setText('')
-
-        
+       
+    # def forward_button(self):
+    #     print(self.file_path)
 
     '''
         Sets a variable volume to be the volume slider position / 100

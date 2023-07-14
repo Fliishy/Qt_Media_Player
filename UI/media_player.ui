@@ -15,44 +15,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QFrame" name="album_frame">
-      <property name="styleSheet">
-       <string notr="true">QFrame {
-	background-color: pink;
-}</string>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="lb_song_title">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>16</pointsize>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>-</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
+    <item row="3" column="0">
      <widget class="QLabel" name="lb_song_time">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -73,7 +36,35 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="0">
+    <item row="5" column="0">
+     <widget class="QSlider" name="volume_slider">
+      <property name="maximum">
+       <number>100</number>
+      </property>
+      <property name="pageStep">
+       <number>20</number>
+      </property>
+      <property name="value">
+       <number>0</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="invertedAppearance">
+       <bool>false</bool>
+      </property>
+      <property name="invertedControls">
+       <bool>false</bool>
+      </property>
+      <property name="tickPosition">
+       <enum>QSlider::NoTicks</enum>
+      </property>
+      <property name="tickInterval">
+       <number>0</number>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
      <widget class="QFrame" name="button_frame">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -144,32 +135,48 @@
       </layout>
      </widget>
     </item>
-    <item row="4" column="0">
-     <widget class="QSlider" name="volume_slider">
-      <property name="maximum">
-       <number>100</number>
+    <item row="2" column="0">
+     <widget class="QLabel" name="lb_song_title">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
-      <property name="pageStep">
-       <number>20</number>
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+        <bold>true</bold>
+       </font>
       </property>
-      <property name="value">
-       <number>0</number>
+      <property name="text">
+       <string>-</string>
       </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
-      <property name="invertedAppearance">
-       <bool>false</bool>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QFrame" name="album_frame">
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
       </property>
-      <property name="invertedControls">
-       <bool>false</bool>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
       </property>
-      <property name="tickPosition">
-       <enum>QSlider::NoTicks</enum>
-      </property>
-      <property name="tickInterval">
-       <number>0</number>
-      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QListView" name="folder_view">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SingleSelection</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
    </layout>
@@ -182,6 +189,11 @@
      <width>594</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -196,6 +208,9 @@
   <action name="actionBrowse">
    <property name="text">
     <string>Browse</string>
+   </property>
+   <property name="font">
+    <font/>
    </property>
   </action>
   <action name="actionQuit">
