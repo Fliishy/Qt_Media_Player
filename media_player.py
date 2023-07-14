@@ -22,8 +22,12 @@ class MediaPlayer (QWidget, Ui_Media_Player):
 
         self.pb_play_pause.clicked.connect(self.play_pause_button)
         self.pb_stop.clicked.connect(self.stop_button)
+        
         # self.pb_back.clicked.connect(self.back_button)
         # self.pb_forward.clicked.connect(self.forward_button)
+
+        # Controls the volume by signaling when the volume bar value is changed
+        self.volume_slider.valueChanged.connect(self.volume_control)
 
     
     '''
@@ -41,12 +45,13 @@ class MediaPlayer (QWidget, Ui_Media_Player):
             )
         
     '''
-    Method that initialises audio
-    Sets the url to be the selected file path
-    QAudioOutput represents an output channel for audio
-    Sets the QMediaPlayer audio output to be the defined audio output
-    Tells the player the source of the file is the file we selected in the select_file method
-    Sets the initial volume of the audio output
+        Method that initialises audio
+        Sets the url to be the selected file path
+        QAudioOutput represents an output channel for audio
+        Sets the QMediaPlayer audio output to be the defined audio output
+        Tells the player the source of the file is the file we selected in the select_file method
+        Sets the initial volume slider to be 20%
+        Calls the volume control method to run which sets the output value
     '''
     def set_audio(self):
         
@@ -54,7 +59,8 @@ class MediaPlayer (QWidget, Ui_Media_Player):
         self.audio_output = QAudioOutput()
         self.player.setAudioOutput(self.audio_output)
         self.player.setSource(file_url)
-        self.audio_output.setVolume(.2)
+        self.volume_slider.setSliderPosition(20)
+        self.volume_control()
         self.player.play()
 
     '''
@@ -99,6 +105,15 @@ class MediaPlayer (QWidget, Ui_Media_Player):
         self.player.stop()
         self.lb_song_title.setText('-')
         self.player.setActiveAudioTrack(-1)
+
+    '''
+        Sets a variable volume to be the volume slider position / 100
+        / 100 because the volume output is working on a 0 - 1 scale where 1 is 100%
+        Set the audio output to be equal to the volume variable
+    '''
+    def volume_control(self):
+        self.volume = self.volume_slider.value() / 100
+        self.audio_output.setVolume(self.volume)
 
 
 # creates an instance of QApplication and executes the program
