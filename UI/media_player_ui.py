@@ -11,35 +11,70 @@
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
-from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
+    QCursor, QFont, QFontDatabase, QGradient,
+    QIcon, QImage, QKeySequence, QLinearGradient,
+    QPainter, QPalette, QPixmap, QRadialGradient,
+    QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QHBoxLayout,
-    QLabel, QPushButton, QSizePolicy, QSlider,
+    QLabel, QMainWindow, QMenu, QMenuBar,
+    QPushButton, QSizePolicy, QSlider, QStatusBar,
     QWidget)
 import icons_rc
 
-class Ui_Media_Player(object):
-    def setupUi(self, Media_Player):
-        if not Media_Player.objectName():
-            Media_Player.setObjectName(u"Media_Player")
-        Media_Player.resize(442, 428)
-        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+class Ui_media_player(object):
+    def setupUi(self, media_player):
+        if not media_player.objectName():
+            media_player.setObjectName(u"media_player")
+        media_player.resize(594, 537)
+        self.actionBrowse = QAction(media_player)
+        self.actionBrowse.setObjectName(u"actionBrowse")
+        self.actionQuit = QAction(media_player)
+        self.actionQuit.setObjectName(u"actionQuit")
+        self.centralwidget = QWidget(media_player)
+        self.centralwidget.setObjectName(u"centralwidget")
+        self.gridLayout = QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.album_frame = QFrame(self.centralwidget)
+        self.album_frame.setObjectName(u"album_frame")
+        self.album_frame.setStyleSheet(u"QFrame {\n"
+"	background-color: pink;\n"
+"}")
+        self.album_frame.setFrameShape(QFrame.StyledPanel)
+        self.album_frame.setFrameShadow(QFrame.Raised)
+
+        self.gridLayout.addWidget(self.album_frame, 0, 0, 1, 1)
+
+        self.lb_song_title = QLabel(self.centralwidget)
+        self.lb_song_title.setObjectName(u"lb_song_title")
+        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(Media_Player.sizePolicy().hasHeightForWidth())
-        Media_Player.setSizePolicy(sizePolicy)
-        Media_Player.setToolTipDuration(0)
-        self.gridLayout = QGridLayout(Media_Player)
-        self.gridLayout.setObjectName(u"gridLayout")
-        self.button_frame = QFrame(Media_Player)
+        sizePolicy.setHeightForWidth(self.lb_song_title.sizePolicy().hasHeightForWidth())
+        self.lb_song_title.setSizePolicy(sizePolicy)
+        font = QFont()
+        font.setPointSize(16)
+        font.setBold(True)
+        self.lb_song_title.setFont(font)
+        self.lb_song_title.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout.addWidget(self.lb_song_title, 1, 0, 1, 1)
+
+        self.lb_song_time = QLabel(self.centralwidget)
+        self.lb_song_time.setObjectName(u"lb_song_time")
+        sizePolicy.setHeightForWidth(self.lb_song_time.sizePolicy().hasHeightForWidth())
+        self.lb_song_time.setSizePolicy(sizePolicy)
+        font1 = QFont()
+        font1.setPointSize(12)
+        self.lb_song_time.setFont(font1)
+        self.lb_song_time.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout.addWidget(self.lb_song_time, 2, 0, 1, 1)
+
+        self.button_frame = QFrame(self.centralwidget)
         self.button_frame.setObjectName(u"button_frame")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.button_frame.sizePolicy().hasHeightForWidth())
-        self.button_frame.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.button_frame.sizePolicy().hasHeightForWidth())
+        self.button_frame.setSizePolicy(sizePolicy)
         self.button_frame.setMinimumSize(QSize(0, 1))
         self.button_frame.setFrameShape(QFrame.NoFrame)
         self.button_frame.setFrameShadow(QFrame.Plain)
@@ -81,17 +116,7 @@ class Ui_Media_Player(object):
 
         self.gridLayout.addWidget(self.button_frame, 3, 0, 1, 1)
 
-        self.album_frame = QFrame(Media_Player)
-        self.album_frame.setObjectName(u"album_frame")
-        self.album_frame.setStyleSheet(u"QFrame {\n"
-"	background-color: pink;\n"
-"}")
-        self.album_frame.setFrameShape(QFrame.StyledPanel)
-        self.album_frame.setFrameShadow(QFrame.Raised)
-
-        self.gridLayout.addWidget(self.album_frame, 0, 0, 1, 1)
-
-        self.volume_slider = QSlider(Media_Player)
+        self.volume_slider = QSlider(self.centralwidget)
         self.volume_slider.setObjectName(u"volume_slider")
         self.volume_slider.setMaximum(100)
         self.volume_slider.setPageStep(20)
@@ -104,45 +129,36 @@ class Ui_Media_Player(object):
 
         self.gridLayout.addWidget(self.volume_slider, 4, 0, 1, 1)
 
-        self.lb_song_time = QLabel(Media_Player)
-        self.lb_song_time.setObjectName(u"lb_song_time")
-        sizePolicy1.setHeightForWidth(self.lb_song_time.sizePolicy().hasHeightForWidth())
-        self.lb_song_time.setSizePolicy(sizePolicy1)
-        font = QFont()
-        font.setPointSize(12)
-        self.lb_song_time.setFont(font)
-        self.lb_song_time.setAlignment(Qt.AlignCenter)
+        media_player.setCentralWidget(self.centralwidget)
+        self.menubar = QMenuBar(media_player)
+        self.menubar.setObjectName(u"menubar")
+        self.menubar.setGeometry(QRect(0, 0, 594, 20))
+        self.menuFile = QMenu(self.menubar)
+        self.menuFile.setObjectName(u"menuFile")
+        media_player.setMenuBar(self.menubar)
+        self.statusbar = QStatusBar(media_player)
+        self.statusbar.setObjectName(u"statusbar")
+        media_player.setStatusBar(self.statusbar)
 
-        self.gridLayout.addWidget(self.lb_song_time, 2, 0, 1, 1)
+        self.menubar.addAction(self.menuFile.menuAction())
+        self.menuFile.addAction(self.actionBrowse)
+        self.menuFile.addAction(self.actionQuit)
 
-        self.lb_song_title = QLabel(Media_Player)
-        self.lb_song_title.setObjectName(u"lb_song_title")
-        sizePolicy1.setHeightForWidth(self.lb_song_title.sizePolicy().hasHeightForWidth())
-        self.lb_song_title.setSizePolicy(sizePolicy1)
-        font1 = QFont()
-        font1.setPointSize(16)
-        font1.setBold(True)
-        self.lb_song_title.setFont(font1)
-        self.lb_song_title.setAlignment(Qt.AlignCenter)
+        self.retranslateUi(media_player)
 
-        self.gridLayout.addWidget(self.lb_song_title, 1, 0, 1, 1)
-
-        QWidget.setTabOrder(self.pb_back, self.pb_stop)
-        QWidget.setTabOrder(self.pb_stop, self.pb_play_pause)
-        QWidget.setTabOrder(self.pb_play_pause, self.pb_forward)
-
-        self.retranslateUi(Media_Player)
-
-        QMetaObject.connectSlotsByName(Media_Player)
+        QMetaObject.connectSlotsByName(media_player)
     # setupUi
 
-    def retranslateUi(self, Media_Player):
-        Media_Player.setWindowTitle(QCoreApplication.translate("Media_Player", u"Media Player", None))
+    def retranslateUi(self, media_player):
+        media_player.setWindowTitle(QCoreApplication.translate("media_player", u"Media Player", None))
+        self.actionBrowse.setText(QCoreApplication.translate("media_player", u"Browse", None))
+        self.actionQuit.setText(QCoreApplication.translate("media_player", u"Quit", None))
+        self.lb_song_title.setText(QCoreApplication.translate("media_player", u"-", None))
+        self.lb_song_time.setText(QCoreApplication.translate("media_player", u"-", None))
         self.pb_back.setText("")
         self.pb_stop.setText("")
         self.pb_play_pause.setText("")
         self.pb_forward.setText("")
-        self.lb_song_time.setText(QCoreApplication.translate("Media_Player", u"-", None))
-        self.lb_song_title.setText(QCoreApplication.translate("Media_Player", u"-", None))
+        self.menuFile.setTitle(QCoreApplication.translate("media_player", u"File", None))
     # retranslateUi
 

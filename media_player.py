@@ -1,11 +1,11 @@
 import sys
-from PySide6.QtWidgets import QWidget, QApplication, QFileDialog
+from PySide6.QtWidgets import QMainWindow, QApplication, QFileDialog
 from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
 from PySide6.QtCore import QUrl, QFileInfo
 
-from UI.media_player_ui import Ui_Media_Player
+from UI.media_player_ui import Ui_media_player
 
-class MediaPlayer (QWidget, Ui_Media_Player):
+class MediaPlayer (QMainWindow, Ui_media_player):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
