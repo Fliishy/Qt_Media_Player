@@ -87,24 +87,28 @@ class MediaPlayer (QWidget, Ui_Media_Player):
         self.lb_song_time.setText(str(f'{minutes}:{seconds}'))
 
     '''
+        If the song title is '' (no song), the play button wont do anything
         If the player is playing audio it will pause the player
         If the player is not playing audio it will play the currently active sound file
     '''
     def play_pause_button(self):
-        if self.player.isPlaying() == True:
+        if self.lb_song_title.text() == '':
+            pass
+        elif self.player.isPlaying() == True:
             self.player.pause()
         else:
             self.player.play()
 
     '''
-        When the stop button is pressed stops playing and resets the play position to the beginning
-        Sets the active track to an index that doesn't exist so it doesn't play anything
-        Sets the song title text to be a dash
+        When the stop button is pressed stops playing and resets the play position to 0
+        Sets the song title and song time text to nothing
     '''
     def stop_button(self):
         self.player.stop()
-        self.lb_song_title.setText('-')
-        self.player.setActiveAudioTrack(-1)
+        self.lb_song_title.setText('')
+        self.lb_song_time.setText('')
+
+        
 
     '''
         Sets a variable volume to be the volume slider position / 100
