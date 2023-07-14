@@ -93,7 +93,14 @@ class Ui_Media_Player(object):
 
         self.volume_slider = QSlider(Media_Player)
         self.volume_slider.setObjectName(u"volume_slider")
+        self.volume_slider.setMaximum(100)
+        self.volume_slider.setPageStep(20)
+        self.volume_slider.setValue(0)
         self.volume_slider.setOrientation(Qt.Horizontal)
+        self.volume_slider.setInvertedAppearance(False)
+        self.volume_slider.setInvertedControls(False)
+        self.volume_slider.setTickPosition(QSlider.NoTicks)
+        self.volume_slider.setTickInterval(0)
 
         self.gridLayout.addWidget(self.volume_slider, 4, 0, 1, 1)
 
