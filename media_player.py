@@ -27,36 +27,59 @@ class MediaPlayer (QMainWindow, Ui_media_player):
         self.model.setNameFilterDisables(False)
         self.init_folder()
 
+        # allows the user to browse their files when file > browse is clicked
+        self.actionBrowse.triggered.connect(self.browse_file)
+
+        # plays the currently selected song from the list when double clicked
+        self.folder_view.doubleClicked.connect(self.list_select)
+
         # runs the player_timer when the track is playing
         self.player.positionChanged.connect(self.player_timer)
 
-        # when the play/pause or stop buttons are pressed it runs the corresponding methods
+        # the playback is played/paused when the play/pause or stop buttons are pressed 
         self.pb_play_pause.clicked.connect(self.play_pause_button)
+
+        # the playback is stopped and current track is cleared from player when stop is pressed
         self.pb_stop.clicked.connect(self.stop_button)
 
-        # allows the user to browse their files when file > browse is clicked
-        self.actionBrowse.triggered.connect(self.select_file)
-        
-        # self.pb_back.clicked.connect(self.back_button)
+        # moves the track to the next in the list, if one is available when the forward button pressed
+        self.pb_forward.clicked.connect(self.forward_button)
 
-        # self.pb_forward.clicked.connect(self.forward_button)
+        # moves the track to the previous in the list, if one is available when the forward button pressed        
+        self.pb_back.clicked.connect(self.back_button)
 
         # Controls the volume by signaling when the volume bar value is changed
         self.volume_slider.valueChanged.connect(self.volume_control)
+
+    '''
+        selected_file is set to the currently seleted item in the list view
+        the file path is set to the file path of that file
+    '''
+    def list_select(self):
+        selected_file = self.folder_view.currentIndex()
+        self.file_path = self.model.filePath(selected_file)
+        self.set_audio()
+        self.song_name()
 
     '''
         Method that runs on startup and allows the user to choose an audio file
         file_filter lists the file types we want to show to the user
         file_path opens a window and lets us choose a file
         file_path returns a tuple with the file path and data types
+        we set file_path[0] so we only retrieve the path
+        the index of the selected file is set as a variable
+        we set the index to be the index variable
     '''
-    def select_file(self):
+    def browse_file(self):
         file_filter = '*.mp3 *.wav *.aac *.flac'
         self.file_path = QFileDialog.getOpenFileName(
             caption='Select a file', # shows what text appears at the top of the windw
             dir='Qt/Media_Player/Audio_Files', # initialises the directory we display
             filter=file_filter # uses the filter list from earlier to only show files of a certain type
-            )
+        )
+        self.file_path = self.file_path[0]
+        selected_index = self.model.index(self.file_path)
+        self.folder_view.setCurrentIndex(selected_index)
         self.set_audio()
         self.song_name()
         self.update_folder()
@@ -87,29 +110,29 @@ class MediaPlayer (QMainWindow, Ui_media_player):
         Sets the url to be the selected file path
         QAudioOutput represents an output channel for audio
         Sets the QMediaPlayer audio output to be the defined audio output
-        Tells the player the source of the file is the file we selected in the select_file method
+        Tells the player the source of the file is the file we selected in the browse_file method
         Sets the initial volume slider to be 50%
         Calls the volume control method to run which sets the output value
     '''
     def set_audio(self):
         self.player.stop()
-        self.file_url = QUrl.fromLocalFile(self.file_path[0])
+        self.file_url = QUrl.fromLocalFile(self.file_path)
         self.audio_output = QAudioOutput()
         self.player.setAudioOutput(self.audio_output)
         self.player.setSource(self.file_url)
         self.volume_slider.setSliderPosition(50)
         self.volume_percent.setText(f'{self.volume_slider.value} + %')
         self.volume_control()
+        self.update_folder()
         self.player.play()
 
     '''
         Converts the file path to a QFileInfo object
-        We set file path to index 0 so as to only retrieve the path, not the data types
         Gives us the name of the file from the QFileInfo object
         Sets the song title label to be the file name we just extracted
     '''
     def song_name(self):
-        file_name_info = QFileInfo(self.file_path[0])
+        file_name_info = QFileInfo(self.file_path)
         file_name = file_name_info.fileName()
         self.lb_song_title.setText(file_name)
 
@@ -126,13 +149,13 @@ class MediaPlayer (QMainWindow, Ui_media_player):
         self.lb_song_time.setText(str(f'{minutes}:{seconds}'))
 
     '''
-        If the song title is '' (no song), the play button wont do anything
+        If the song title is '' (no song), the play button runs the list select method to play the selected song
         If the player is playing audio it will pause the player
         If the player is not playing audio it will play the currently active sound file
     '''
     def play_pause_button(self):
         if self.lb_song_title.text() == '':
-            pass
+            self.list_select()
         elif self.player.isPlaying() == True:
             self.player.pause()
         else:
@@ -146,9 +169,40 @@ class MediaPlayer (QMainWindow, Ui_media_player):
         self.player.stop()
         self.lb_song_title.setText('')
         self.lb_song_time.setText('')
-       
-    # def forward_button(self):
-    #     print(self.file_path)
+
+    '''
+        Gets the current index of the selected item
+        Gets the current row of the selected item
+        Creates a sibling of the current item at the next row
+
+        if there is a valid index (as in a file exists)
+        the folder_view is set to the new index
+        the path is set to the next file in the list
+        the audio playback methods run
+    '''   
+    def forward_button(self):
+        current_index = self.folder_view.currentIndex()
+        current_row = current_index.row()
+        next_row = current_row + 1
+        next_index = current_index.siblingAtRow(next_row)
+
+        if next_index.isValid():
+            self.folder_view.setCurrentIndex(next_index)
+            self.file_path = self.model.filePath(next_index)
+            self.set_audio()
+            self.song_name()
+
+    def back_button(self):
+        current_index = self.folder_view.currentIndex()
+        current_row = current_index.row()
+        previous_row = current_row - 1
+        previous_index = current_index.siblingAtRow(previous_row)
+
+        if previous_index.isValid():
+            self.folder_view.setCurrentIndex(previous_index)
+            self.file_path = self.model.filePath(previous_index)
+            self.set_audio()
+            self.song_name()
 
     '''
         Sets a variable volume to be the volume slider position / 100
