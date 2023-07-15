@@ -1,4 +1,4 @@
-import sys, pathlib
+import sys
 from PySide6.QtWidgets import QMainWindow, QApplication, QFileDialog, QFileSystemModel
 from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
 from PySide6.QtCore import QUrl, QFileInfo
@@ -29,6 +29,9 @@ class MediaPlayer (QMainWindow, Ui_media_player):
 
         # allows the user to browse their files when file > browse is clicked
         self.actionBrowse.triggered.connect(self.browse_file)
+
+        # exits the app when file > quit is selected
+        self.actionQuit.triggered.connect(self.quit)
 
         # plays the currently selected song from the list when double clicked
         self.folder_view.doubleClicked.connect(self.list_select)
@@ -83,6 +86,10 @@ class MediaPlayer (QMainWindow, Ui_media_player):
         self.set_audio()
         self.song_name()
         self.update_folder()
+
+    # kills the program
+    def quit(self):
+        sys.exit()
 
     '''
         sets the initial display folder as the current_directory path
@@ -142,11 +149,21 @@ class MediaPlayer (QMainWindow, Ui_media_player):
         Sets the song_time label text to be a string with the minutes and seconds
     '''
     def player_timer(self):
-        milliseconds = self.player.position()
-        seconds = milliseconds // 1000
-        minutes = seconds // 60
+        duration_milliseconds = self.player.duration()
+        duration_seconds = duration_milliseconds // 1000
+        duration_minutes = duration_seconds // 60
+        duration_seconds %= 60  # Reset seconds to 0 when a minute is reached
 
-        self.lb_song_time.setText(str(f'{minutes}:{seconds}'))
+        playing_milliseconds = self.player.position()
+        playing_seconds = playing_milliseconds // 1000
+        playing_minutes = playing_seconds // 60
+        playing_seconds %= 60  # Reset seconds to 0 when a minute is reached
+
+        # Format the time as mm:ss
+        formatted_duration = f"{duration_minutes:02d}:{duration_seconds:02d}"
+        formatted_playing = f"{playing_minutes:02d}:{playing_seconds:02d}"
+
+        self.lb_song_time.setText(f"{formatted_playing}/{formatted_duration}")
 
     '''
         If the song title is '' (no song), the play button runs the list select method to play the selected song

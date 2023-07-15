@@ -10,6 +10,11 @@
     <height>598</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>11</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Media Player</string>
   </property>
@@ -29,7 +34,7 @@
        </font>
       </property>
       <property name="text">
-       <string>-</string>
+       <string/>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -51,7 +56,37 @@
        <enum>QFrame::Plain</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="0">
+       <item row="0" column="2">
+        <widget class="QLabel" name="volume_percent">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>34</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>34</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel {
+	color:black;
+}</string>
+         </property>
+         <property name="text">
+          <string>0%</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
         <widget class="QSlider" name="volume_slider">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -88,33 +123,28 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="volume_percent">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize">
-          <size>
-           <width>34</width>
-           <height>0</height>
-          </size>
-         </property>
          <property name="maximumSize">
           <size>
-           <width>34</width>
-           <height>16777215</height>
+           <width>20</width>
+           <height>20</height>
           </size>
          </property>
-         <property name="styleSheet">
-          <string notr="true">QLabel {
-	color:black;
-}</string>
-         </property>
          <property name="text">
-          <string>0%</string>
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap resource="Icons/icons.qrc">:/buttons/sound-on.png</pixmap>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -147,6 +177,12 @@
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QPushButton" name="pb_back">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="text">
           <string/>
          </property>
@@ -154,10 +190,22 @@
           <iconset resource="Icons/icons.qrc">
            <normaloff>:/buttons/previous-track.png</normaloff>:/buttons/previous-track.png</iconset>
          </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="pb_stop">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="text">
           <string/>
          </property>
@@ -165,10 +213,22 @@
           <iconset resource="Icons/icons.qrc">
            <normaloff>:/buttons/stop.png</normaloff>:/buttons/stop.png</iconset>
          </property>
+         <property name="iconSize">
+          <size>
+           <width>13</width>
+           <height>13</height>
+          </size>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="pb_play_pause">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="text">
           <string/>
          </property>
@@ -176,16 +236,34 @@
           <iconset resource="Icons/icons.qrc">
            <normaloff>:/buttons/pause-play.png</normaloff>:/buttons/pause-play.png</iconset>
          </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="pb_forward">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset resource="Icons/icons.qrc">
            <normaloff>:/buttons/next-track.png</normaloff>:/buttons/next-track.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
          </property>
         </widget>
        </item>
@@ -207,7 +285,7 @@
        </font>
       </property>
       <property name="text">
-       <string>-</string>
+       <string/>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -225,6 +303,9 @@
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
         <widget class="QListView" name="folder_view">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
          </property>
@@ -247,12 +328,12 @@
      <x>0</x>
      <y>0</y>
      <width>713</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
+     <pointsize>11</pointsize>
     </font>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -270,7 +351,9 @@
     <string>Browse</string>
    </property>
    <property name="font">
-    <font/>
+    <font>
+     <pointsize>11</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionQuit">
