@@ -8,7 +8,7 @@ from UI.media_player_ui import Ui_media_player
 
 class MediaPlayer (QMainWindow, Ui_media_player):
 
-    current_directory = 'Qt/Media_Player/Audio_Files'
+    current_directory = 'Qt_Media_Player/Audio_Files'
 
     def __init__(self):
         super().__init__()
@@ -77,7 +77,7 @@ class MediaPlayer (QMainWindow, Ui_media_player):
         file_filter = '*.mp3 *.wav *.aac *.flac'
         self.file_path = QFileDialog.getOpenFileName(
             caption='Select a file', # shows what text appears at the top of the windw
-            dir='Qt/Media_Player/Audio_Files', # initialises the directory we display
+            dir='Qt_Media_Player/Audio_Files', # initialises the directory we display
             filter=file_filter # uses the filter list from earlier to only show files of a certain type
         )
         self.file_path = self.file_path[0]
